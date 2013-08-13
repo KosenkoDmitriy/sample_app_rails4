@@ -21,6 +21,17 @@ describe "Static pages" do
     end
   end
   
+  it "should have the base titile" do 
+    visit '/static_pages/home'
+    expect(page).to have_title('Base Title')
+  end
+  
+  it "should not have a custom page title" do
+    visit 'static_pages/home'
+    expect(page).to have_title('| Home')
+    end
+    
+  
   describe "Help page" do
 
     it "should have the content 'Help'" do
