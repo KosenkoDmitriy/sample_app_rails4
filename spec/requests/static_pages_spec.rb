@@ -20,6 +20,12 @@ describe "Static pages" do
     it { should have_title(full_title(page_title)) }  
   end
   
+  it "should have the right links on the layout" do 
+    visit root_path
+    click_link about_path
+    to have_title(full_title("About Us"))
+  end
+  
   describe "Home page" do
     before { visit root_path }
     let(:heading)   { 'Sample App' }
