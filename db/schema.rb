@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20131127124107) do
+ActiveRecord::Schema.define(version: 20131128193956) do
 
   create_table "rapns_apps", force: true do |t|
     t.string   "name",                    null: false
@@ -61,6 +61,12 @@ ActiveRecord::Schema.define(version: 20131127124107) do
   end
 
   add_index "rapns_notifications", ["app_id", "delivered", "failed", "deliver_after"], name: "index_rapns_notifications_multi"
+
+  create_table "registration_ids", force: true do |t|
+    t.string   "reg_id"
+    t.datetime "created_at"
+    t.datetime "updated_at"
+  end
 
   create_table "users", force: true do |t|
     t.string   "name"

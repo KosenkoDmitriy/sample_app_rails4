@@ -2,6 +2,15 @@ class PushNotificationsController < ApplicationController
   
   def index
     @hello = "hello from controller"
+    @user = RegistrationId.new # (reg_id: "sadfsaf131fasd" )
+    @user.reg_id = "sadfsasfd13413dfa"
+    #if @user.save
+      # Handle a successful save.
+    @user.save()
+     # @msg = "saved " + @user.reg_id
+    #else
+    #  @msg = "not saved "
+    #end
   end
   
   def verify
@@ -15,9 +24,17 @@ class PushNotificationsController < ApplicationController
 #    app.connections = 1
 #    app.save!
 #    request.body;
+    @user = RegistrationId.new # (reg_id: "sadfsaf131fasd" )
+    @user.reg_id = params[:id]
+    #if @user.save
+      # Handle a successful save.
+    @user.save()
+    
+    @reg_ids = RegistrationId.uniq.pluck(:reg_id)
+    
     n = Rapns::Gcm::Notification.new
     n.app = Rapns::Gcm::App.find_by_name("name.adec.android.shop")
-    n.registration_ids = [ params[:id],  ] # ["1","2","3"] #["AIzaSyBjHSYGd3ufpk0v76o5v-Bu-MdmrjhLVtQ"] #//
+    n.registration_ids = @reg_ids #[ params[:id],  ] # ["1","2","3"] #["AIzaSyBjHSYGd3ufpk0v76o5v-Bu-MdmrjhLVtQ"] #//
     n.data = {:message => "hi adec llc!"}
     n.save!
   end
