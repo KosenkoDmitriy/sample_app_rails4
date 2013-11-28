@@ -10,8 +10,9 @@ SampleApp::Application.routes.draw do
   match '/contact', to: 'static_pages#contact', via: 'get'
   match '/signup',  to: 'user#new',             via: 'get'
   match '/push_notifications',  to: 'push_notifications#index',             via: 'get'
-  get '/push_notifications/google' => 'push_notifications#google'
+  get '/push_notifications/google/send' => 'push_notifications#google'
   get '/push_notifications/apple' => 'push_notifications#apple'
+  get '/push_notifications/google' => 'push_notifications#googlecfc212ce9fce9cf8'
 
   # The priority is based upon order of creation: first created -> highest priority.
   # See how all your routes lay out with "rake routes".

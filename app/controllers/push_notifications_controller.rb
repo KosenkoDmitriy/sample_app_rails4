@@ -6,8 +6,8 @@ class PushNotificationsController < ApplicationController
   
   def google
 #    app = Rapns::Gcm::App.new
-#    app.name = "name.adec.shop"
-#    app.auth_key = "AIzaSyBjHSYGd3ufpk0v76o5v-Bu-MdmrjhLVtQ"
+#    app.name = "name.adec.android.shop"
+#    app.auth_key = "AIzaSyDDBzIQOhaN5iXGjPeIBnIJNWP2t0QUz8E" #"AIzaSyBjHSYGd3ufpk0v76o5v-Bu-MdmrjhLVtQ"
 #    app.connections = 1
 #    app.save!
     
