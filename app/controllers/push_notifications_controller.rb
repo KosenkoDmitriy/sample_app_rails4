@@ -4,6 +4,10 @@ class PushNotificationsController < ApplicationController
     @hello = "hello from controller"
   end
   
+  def verify
+    send_file "app/assets/googlecfc212ce9fce9cf8.html", :type=>"application/zip"
+  end
+  
   def google
 #    app = Rapns::Gcm::App.new
 #    app.name = "name.adec.android.shop"

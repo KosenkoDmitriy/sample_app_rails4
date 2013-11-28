@@ -12,7 +12,7 @@ SampleApp::Application.routes.draw do
   match '/push_notifications',  to: 'push_notifications#index',             via: 'get'
   get '/push_notifications/google/send' => 'push_notifications#google'
   get '/push_notifications/apple' => 'push_notifications#apple'
-  get '/push_notifications/google' => 'push_notifications#googlecfc212ce9fce9cf8'
+  get '/push_notifications/google/googlecfc212ce9fce9cf8.html' => 'push_notifications#verify'
 
   # The priority is based upon order of creation: first created -> highest priority.
   # See how all your routes lay out with "rake routes".
