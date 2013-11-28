@@ -25,7 +25,32 @@
 
   # Define a custom logger.
   # config.logger = MyLogger.new
+  
 
+
+  # Run in the foreground?
+  config.foreground = false
+
+  # Frequency in seconds to check for new notifications.
+  config.push_poll = 2
+
+  # Frequency in seconds to check for feedback
+  config.feedback_poll = 60
+
+  # Disable APNs error checking after notification delivery.
+  config.check_for_errors = true
+
+  # ActiveRecord notifications batch size.
+  config.batch_size = 5000
+
+  # Perform updates to the storage backend in batches to reduce IO.
+  config.batch_storage_updates = true
+
+  # Path to write PID file. Relative to Rails root unless absolute.
+  config.pid_file = 'tmp/pids/rapns.pid'
+
+  # Define a custom logger.
+  #config.logger = MyLogger.new
  end
 
 Rapns.reflect do |on|
