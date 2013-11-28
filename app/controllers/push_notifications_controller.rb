@@ -14,10 +14,10 @@ class PushNotificationsController < ApplicationController
 #    app.auth_key = "AIzaSyDDBzIQOhaN5iXGjPeIBnIJNWP2t0QUz8E" #"AIzaSyBjHSYGd3ufpk0v76o5v-Bu-MdmrjhLVtQ"
 #    app.connections = 1
 #    app.save!
-    
+#    request.body;
     n = Rapns::Gcm::Notification.new
     n.app = Rapns::Gcm::App.find_by_name("name.adec.android.shop")
-    n.registration_ids = ["1","2","3"] #["AIzaSyBjHSYGd3ufpk0v76o5v-Bu-MdmrjhLVtQ"] #//
+    n.registration_ids = [ params[:id],  ] # ["1","2","3"] #["AIzaSyBjHSYGd3ufpk0v76o5v-Bu-MdmrjhLVtQ"] #//
     n.data = {:message => "hi adec llc!"}
     n.save!
   end
