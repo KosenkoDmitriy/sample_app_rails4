@@ -12,7 +12,7 @@ class PushNotificationsController < ApplicationController
 #    app.save!
     
     n = Rapns::Gcm::Notification.new
-    n.app = Rapns::Gcm::App.find_by_name("name.adec.shop")
+    n.app = Rapns::Gcm::App.find_by_name("name.adec.android.shop")
     n.registration_ids = ["1","2","3"] #["AIzaSyBjHSYGd3ufpk0v76o5v-Bu-MdmrjhLVtQ"] #//
     n.data = {:message => "hi adec llc!"}
     n.save!
