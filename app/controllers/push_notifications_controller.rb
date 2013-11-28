@@ -2,15 +2,8 @@ class PushNotificationsController < ApplicationController
   
   def index
     @hello = "hello from controller"
-    @user = RegistrationId.new # (reg_id: "sadfsaf131fasd" )
-    @user.reg_id = "sadfsasfd13413dfa"
-    #if @user.save
-      # Handle a successful save.
-    @user.save()
-     # @msg = "saved " + @user.reg_id
-    #else
-    #  @msg = "not saved "
-    #end
+    @reg_ids = RegistrationId.uniq.pluck(:reg_id)
+
   end
   
   def verify

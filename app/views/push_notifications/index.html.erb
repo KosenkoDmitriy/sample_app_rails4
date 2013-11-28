@@ -4,6 +4,10 @@
     <h1>Push Notifications Page</h1>
     <p>
 		<%= @hello %>
+		Registation ids:<br/>
+		<% @reg_ids.each do |r| %>
+			<%= r %><br/>
+		<% end %>
     </p>
     <%= link_to "Sign up now!", signup_path, class: "btn btn-large btn-primary" %>
 </div>
