@@ -11,7 +11,7 @@ SampleApp::Application.routes.draw do
   match '/signup',  to: 'user#new',             via: 'get'
   match '/push_notifications',  to: 'push_notifications#index',             via: 'get'
   
-  get '/push_notifications/google/send' => 'push_notifications#google'
+  #get '/push_notifications/google/send' => 'push_notifications#google'
   post '/push_notifications/google/send' => 'push_notifications#google'
   
   get '/push_notifications/apple' => 'push_notifications#apple'
