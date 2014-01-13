@@ -29,7 +29,7 @@
 
 
   # Run in the foreground?
-  config.foreground = false
+  config.foreground = true
 
   # Frequency in seconds to check for new notifications.
   config.push_poll = 2
@@ -60,6 +60,10 @@ Rapns.reflect do |on|
   # Further notifications should not be sent to the device.
   # on.apns_feedback do |feedback|
   # end
+  on.apns_feedback do |feedback|
+    device = AppleDevice.find_by_token(feedback.device_token)
+    device.destroy if device
+  end
 
   # Called when a notification is queued internally for delivery.
   # The internal queue for each app runner can be inspected:
@@ -80,7 +84,11 @@ Rapns.reflect do |on|
   # Call 'error_code' and 'error_description' on the notification for the cause.
   # on.notification_failed do |notification|
   # end
-
+  on.notification_failed do |notification|
+    device = Device.find_by_token(notification.registration_ids.first)
+    device.destroy if device
+  end
+    
   # Called when a notification will be retried at a later date.
   # Call 'deliver_after' on the notification for the next delivery date
   # and 'retries' for the number of times this notification has been retried.
@@ -95,7 +103,7 @@ Rapns.reflect do |on|
   # You will need to replace old_id with canonical_id in your records.
   # on.gcm_canonical_id do |old_id, canonical_id|
   # end
-
+  
   # Called when an APNs certificate will expire within 1 month.
   # Implement on.error to catch errors raised when the certificate expires.
   # on.apns_certificate_will_expire do |app, expiration_time|

@@ -11,11 +11,17 @@ SampleApp::Application.routes.draw do
   match '/signup',  to: 'user#new',             via: 'get'
   match '/push_notifications',  to: 'push_notifications#index',             via: 'get'
   
-  #get '/push_notifications/google/send' => 'push_notifications#google'
+  get '/push_notifications/google/send' => 'push_notifications#google'
   post '/push_notifications/google/send' => 'push_notifications#google'
   
   get '/push_notifications/apple' => 'push_notifications#apple'
+
+  post '/push_notifications/new_apple_device' => 'push_notifications#new_apple_device'
+  post '/push_notifications/new_android_device' => 'push_notifications#new_android_device'
+
   get '/push_notifications/google/googlecfc212ce9fce9cf8.html' => 'push_notifications#verify'
+
+  post '/notification/push/android_and_ios' => 'push_notifications#android_and_ios_json'
 
   # The priority is based upon order of creation: first created -> highest priority.
   # See how all your routes lay out with "rake routes".
