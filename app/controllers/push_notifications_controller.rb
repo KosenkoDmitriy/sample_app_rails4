@@ -5,7 +5,7 @@ class PushNotificationsController < ApplicationController
 
   def index
 
-    @result = JSON.parse(open("http://127.0.0.1:3001/api/products").read)
+    #@result = JSON.parse(open("http://127.0.0.1:3001/api/products").read)
 
 #    @reg_ids = RegistrationId.uniq.pluck(:reg_id)
     @android_reg_ids = AndroidDeviceToken.uniq.pluck(:token)
