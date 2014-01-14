@@ -119,7 +119,7 @@ class PushNotificationsController < ApplicationController
       n = Rapns::Gcm::Notification.new
       n.app = Rapns::Gcm::App.find_by_name("adec_shop_android") #name.adec.android.shop")
       n.registration_ids = @android_reg_ids #[ params[:id],  ] # ["1","2","3"] #["AIzaSyBjHSYGd3ufpk0v76o5v-Bu-MdmrjhLVtQ"] #//
-      n.data = {:message => "message hi adec llc!", :title => title, :text => text, :image => "adec", :code => "123"}
+      n.data = {:message => text, :title => title, :text => text, :image => "adec", :code => "123"}
       n.save!
 
 
@@ -129,7 +129,7 @@ class PushNotificationsController < ApplicationController
         n = Rapns::Apns::Notification.new
         n.app = Rapns::Apns::App.find_by_name("adec_shop_ios")
         n.device_token = token
-        n.alert = "hi adec llc!"
+        n.alert = text
         n.attributes_for_device = {:badge => "1", :sound => "default", :title => title, :text => text, :image => "adec", :code => "123"}
         n.save!
       end
