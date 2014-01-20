@@ -41,99 +41,86 @@ class PushNotificationsController < ApplicationController
   end
 
 
-  def google
-#    app = Rapns::Gcm::App.new
-#    app.name = "name.adec.android.shop"
-#    app.auth_key = "AIzaSyATuvf45LsCZ6A4p6B4wLkeqTa_Fm0E_G8" #"AIzaSyDDBzIQOhaN5iXGjPeIBnIJNWP2t0QUz8E" #"AIzaSyBjHSYGd3ufpk0v76o5v-Bu-MdmrjhLVtQ"
-#    app.connections = 1
-#    app.save!
-
-#    @user = RegistrationId.new # (reg_id: "sadfsaf131fasd" )
-#    @user.reg_id = params[:id]
-#    #if @user.save
-#      # Handle a successful save.
-#    @user.save()
-    
-#    @reg_ids = RegistrationId.uniq.pluck(:reg_id)
-    
-    @reg_ids = AndroidDeviceToken.uniq.pluck(:token)
-
-    n = Rapns::Gcm::Notification.new
-    n.app = Rapns::Gcm::App.find_by_name("adec_shop_android") #name.adec.android.shop")
-    n.registration_ids = @reg_ids #[ params[:id],  ] # ["1","2","3"] #["AIzaSyBjHSYGd3ufpk0v76o5v-Bu-MdmrjhLVtQ"] #//
-    n.data = {:message => "message hi adec llc!", :title => "title 1", :text => "text 1", :image => "adec", :code => "123"}
-    n.save!
-    
-#    Rapns.push
-#  Rapns.shutdown
-#  Rapns.embed
-  
+  def create_gcm_app
+    app = Rapns::Gcm::App.new
+    app.name = "name.adec.android.shop"
+    app.auth_key = "AIzaSyATuvf45LsCZ6A4p6B4wLkeqTa_Fm0E_G8" #"AIzaSyDDBzIQOhaN5iXGjPeIBnIJNWP2t0QUz8E" #"AIzaSyBjHSYGd3ufpk0v76o5v-Bu-MdmrjhLVtQ"
+    app.connections = 1
+    app.save!
   end
 
 
-  def apple
+  def create_apns_app
     #TODO: generate SSL certificate https://github.com/ileitch/rapns/wiki/Generating-Certificates
-#    app = Rapns::Apns::App.new
-#    app.name = "ios_app"
-#    app.certificate = File.read("config/database.yml") # File.read("/path/to/sandbox.pem")
-#    app.environment = "sandbox" # APNs environment.
-#    app.password = "certificate password"
-#    app.connections = 1
-#    app.save()
-    
-
-#    @user = RegistrationId.new # (reg_id: "sadfsaf131fasd" )
-#    @user.reg_id = params[:id]
-#    #if @user.save
-#      # Handle a successful save.
-#    @user.save()
-#    
-#    @reg_ids = RegistrationId.uniq.pluck(:reg_id)
-    @reg_ids = AppleDeviceToken.uniq.pluck(:token)
-    
-    @reg_ids.each do | token |
-      n = Rapns::Apns::Notification.new
-      n.app = Rapns::Apns::App.find_by_name("adec_shop_ios")
-      n.device_token = token
-      n.alert = "hi adec llc!"
-      n.attributes_for_device = {:badge => "1", :sound => "default", :message => "message hi adec llc!", :title => "title 1", :text => "text 1", :image => "adec", :code => "123"}
-
-      n.save!
-    end
-  
-#    Rapns.push
-#    Rapns.shutdown
-#    Rapns.embed
-  
+    app = Rapns::Apns::App.new
+    app.name = "name.adec.ios.shop"
+    app.certificate = File.read("/path/to/sandbox.pem")
+    app.environment = "sandbox" # APNs environment.
+    app.password = "certificate password"
+    app.connections = 1
+    app.save()
   end
 
 
-  def android_and_ios_json
-    if ((!params[:title].blank?) && (!params[:text].blank?))
-
+  def news
+    if ((!params[:title].blank?) && (!params[:text].blank?) && (!params[:app][:ios].blank?) && (!params[:app][:android].blank?))
+      
       title = params[:title]
       text = params[:text]
+      app_android = params[:app][:android]
+      app_ios = params[:app][:ios]
+      image = "default"
 
-      @android_reg_ids = AndroidDeviceToken.uniq.pluck(:token)
+      android_params = {:message => text, :title => title, :text => text, :image => image}
+      android_push_notification app_android, android_params
 
-      n = Rapns::Gcm::Notification.new
-      n.app = Rapns::Gcm::App.find_by_name("adec_shop_android") #name.adec.android.shop")
-      n.registration_ids = @android_reg_ids #[ params[:id],  ] # ["1","2","3"] #["AIzaSyBjHSYGd3ufpk0v76o5v-Bu-MdmrjhLVtQ"] #//
-      n.data = {:message => text, :title => title, :text => text, :image => "adec", :code => "123"}
-      n.save!
-
-
-      @reg_ids = AppleDeviceToken.uniq.pluck(:token)
-
-      @reg_ids.each do | token |
-        n = Rapns::Apns::Notification.new
-        n.app = Rapns::Apns::App.find_by_name("adec_shop_ios")
-        n.device_token = token
-        n.alert = text
-        n.attributes_for_device = {:badge => "1", :sound => "default", :title => title, :text => text, :image => "adec", :code => "123"}
-        n.save!
-      end
-
+      ios_params = {:badge => "1", :sound => "default", :title => title, :text => text, :image => image}
+      ios_push_notification app_ios, ios_params
+      
     end
   end
+  
+  def sync
+    if ((!params[:sync].blank?) && (!params[:title].blank?) && (!params[:text].blank?) && (!params[:app][:ios].blank?) && (!params[:app][:android].blank?))
+      
+      title = params[:title]
+      text = params[:text]
+      app_android = params[:app][:android]
+      app_ios = params[:app][:ios]
+      sync = params[:sync]
+      image = "default"
+
+      android_params = {:message => text, :title => title, :text => text, :image => image, :sync => sync}
+      android_push_notification app_android, android_params
+
+      ios_params = {:badge => "1", :sound => "default", :title => title, :text => text, :image => image, :sync => sync}
+      ios_push_notification app_ios, ios_params
+      
+    end
+  end
+
+
+  def android_push_notification ( app_id, android_params)
+    android_reg_ids = AndroidDeviceToken.uniq.pluck(:token)
+  
+    n = Rapns::Gcm::Notification.new
+    n.app = Rapns::Gcm::App.find_by_name(app_id)
+    n.registration_ids = android_reg_ids #[ params[:id],  ] # ["1","2","3"] #["AIzaSyBjHSYGd3ufpk0v76o5v-Bu-MdmrjhLVtQ"] #//
+    n.data = android_params
+    n.save!
+  end
+  
+  def ios_push_notification (app_id, ios_params)
+    reg_ids = AppleDeviceToken.uniq.pluck(:token)
+  
+    reg_ids.each do | token |
+      n = Rapns::Apns::Notification.new
+      n.app = Rapns::Apns::App.find_by_name(app_id)
+      n.device_token = token
+      n.alert = ios_params[:text]
+      n.attributes_for_device = ios_params[:text]
+      n.save!
+    end
+  end
+    
 end
