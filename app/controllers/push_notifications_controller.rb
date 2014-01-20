@@ -69,7 +69,7 @@ class PushNotificationsController < ApplicationController
       text = params[:text]
       app_android = params[:app][:android]
       app_ios = params[:app][:ios]
-      image = "default"
+      image = "default.png"
 
       android_params = {:message => text, :title => title, :text => text, :image => image}
       android_push_notification app_android, android_params
@@ -88,7 +88,7 @@ class PushNotificationsController < ApplicationController
       app_android = params[:app][:android]
       app_ios = params[:app][:ios]
       sync = params[:sync]
-      image = "default"
+      image = "default.png"
 
       android_params = {:message => text, :title => title, :text => text, :image => image, :sync => sync}
       android_push_notification app_android, android_params
