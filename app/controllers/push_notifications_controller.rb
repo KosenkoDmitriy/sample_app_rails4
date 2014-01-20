@@ -118,7 +118,7 @@ class PushNotificationsController < ApplicationController
       n.app = Rapns::Apns::App.find_by_name(app_id)
       n.device_token = token
       n.alert = ios_params[:text]
-      n.attributes_for_device = ios_params[:text]
+      n.attributes_for_device = ios_params
       n.save!
     end
   end
