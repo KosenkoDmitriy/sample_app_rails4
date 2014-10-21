@@ -42,7 +42,7 @@ class PushNotificationsController < ApplicationController
 
 
   def create_gcm_app
-    app = Rapns::Gcm::App.new
+    app = Rpush::Gcm::App.new
     app.name = "name.adec.android.shop"
     app.auth_key = "AIzaSyATuvf45LsCZ6A4p6B4wLkeqTa_Fm0E_G8" #"AIzaSyDDBzIQOhaN5iXGjPeIBnIJNWP2t0QUz8E" #"AIzaSyBjHSYGd3ufpk0v76o5v-Bu-MdmrjhLVtQ"
     app.connections = 1
@@ -52,7 +52,7 @@ class PushNotificationsController < ApplicationController
 
   def create_apns_app
     #TODO: generate SSL certificate https://github.com/ileitch/rapns/wiki/Generating-Certificates
-    app = Rapns::Apns::App.new
+    app = Rpush::Apns::App.new
     app.name = "name.adec.ios.shop"
     app.certificate = File.read("/path/to/sandbox.pem")
     app.environment = "sandbox" # APNs environment.
@@ -103,8 +103,8 @@ class PushNotificationsController < ApplicationController
   def android_push_notification ( app_id, android_params)
     android_reg_ids = AndroidDeviceToken.uniq.pluck(:token)
   
-    n = Rapns::Gcm::Notification.new
-    n.app = Rapns::Gcm::App.find_by_name(app_id)
+    n = Rpush::Gcm::Notification.new
+    n.app = Rpush::Gcm::App.find_by_name(app_id)
     n.registration_ids = android_reg_ids #[ params[:id],  ] # ["1","2","3"] #["AIzaSyBjHSYGd3ufpk0v76o5v-Bu-MdmrjhLVtQ"] #//
     n.data = android_params
     n.save!
@@ -114,8 +114,8 @@ class PushNotificationsController < ApplicationController
     reg_ids = AppleDeviceToken.uniq.pluck(:token)
   
     reg_ids.each do | token |
-      n = Rapns::Apns::Notification.new
-      n.app = Rapns::Apns::App.find_by_name(app_id)
+      n = Rpush::Apns::Notification.new
+      n.app = Rpush::Apns::App.find_by_name(app_id)
       n.device_token = token
       n.alert = ios_params[:text]
       n.attributes_for_device = ios_params
