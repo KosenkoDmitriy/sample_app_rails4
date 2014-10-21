@@ -1,5 +1,5 @@
 source 'https://rubygems.org'
-ruby '2.0.0'
+#ruby '2.0.0'
 #ruby-gemset=railstutorial_rails_4_0
 
 gem 'rails', '4.0.0'
@@ -32,6 +32,11 @@ group :doc do
 end
 
 group :production do
-  gem 'pg', '0.15.1'
-  gem 'rails_12factor', '0.0.2'
+  gem 'sqlite3', '1.3.7'
+  gem 'rspec-rails', '2.13.1'
+  gem 'therubyracer',  platforms: :ruby
+
+  #gem 'pg', '0.15.1'
+  #gem 'rails_12factor', '0.0.2'
 end
+
